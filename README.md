@@ -4,18 +4,18 @@
 
 ### Download
 
-Download and copy this repository to `/site/plugins/{{ plugin-name }}`.
+Download and copy this repository to `/site/plugins/kirby3-many-2-many`.
 
 ### Git submodule
 
 ```
-git submodule add https://github.com/{{ your-name }}/{{ plugin-name }}.git site/plugins/{{ plugin-name }}
+git submodule add https://github.com/jonasholfeld/kirby3-many-2-many.git site/plugins/kirby3-many-2-many
 ```
 
 ### Composer
 
 ```
-composer require {{ your-name }}/{{ plugin-name }}
+composer require jonasholfeld/many-2-many
 ```
 
 ## Setup
