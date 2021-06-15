@@ -1,0 +1,16 @@
+{
+    "name": "jonasholfeld/many-2-many",
+    "description": "Kirby Many To Many Relationship Plugin",
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Jonas Holfeld",
+            "email": "klatschpauke@gmail.com"
+        }
+    ],
+    "require": {
+        "getkirby/composer-installer": "^1.1"
+    }
+}
