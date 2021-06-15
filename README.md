@@ -38,7 +38,7 @@ The AutoID plugin automatically generates an unique ID for every page that gets 
 
 3. Setup your blueprints
 
-The many-2-many plugin gets all its information about the related pages from your blueprints, so its essential to set them up right. You can check out the example blueprints to get a better idea about how to setup yours.
+The many-2-many plugin gets all its information about the related pages from your blueprints, so its essential to set them up right. You can check out the [example blueprints]() to get a better idea about how to setup yours.
 
 Both blueprints need a field of type relation, you can name then how you like:
 

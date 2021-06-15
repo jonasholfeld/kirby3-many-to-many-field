@@ -1,0 +1,25 @@
+title: Work
+
+fields:
+    author:
+        label: Author
+        type: relation
+        fields:
+            foreignKey:
+                label: Work
+                type: multiselect
+                min: 1
+                max: 1
+                options: query
+                query:
+                    fetch: site.find('artists').childrenAndDrafts
+                    text: "{{ page.title }}"
+                    value: "{{ page.autoid }}"
+        validate:
+          unique: author
+        relatedContentType: artist
+        relatedPage: artists
+        relatationField: works
+        
+    autoid:
+          translate: false

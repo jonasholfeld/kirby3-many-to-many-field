@@ -1,0 +1,8 @@
+title: Artists
+
+sections:
+
+  children:
+    headline: Artists
+    type: pages
+    templates: artist
