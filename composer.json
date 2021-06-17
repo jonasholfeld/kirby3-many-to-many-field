@@ -1,5 +1,5 @@
 {
-    "name": "jonasholfeld/many-2-many",
+    "name": "jonasholfeld/many-to-many-field",
     "description": "Kirby Many To Many Relationship Plugin",
     "type": "kirby-plugin",
     "license": "MIT",

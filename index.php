@@ -1,6 +1,6 @@
 <?php
 
-Kirby::plugin('jonasholfeld/many-2-many', [
+Kirby::plugin('jonasholfeld/many-to-many-field', [
     'fields' => [
         'relation' => [
             'extends' => 'structure',

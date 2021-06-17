@@ -1,5 +1,5 @@
 ****
-# Kirby 3 Many 2 Many Field
+# Kirby 3 Many TO Many Field
 
 ## Installation
 
