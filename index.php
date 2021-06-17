@@ -20,7 +20,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 // Checks if the relation field was edited
                 if (relationIsChanged($newPage, $oldPage, $relation)) {
                     // Getting Content type and page from the blueprint of the updated page
-                    $relatedContentType = $newPage->blueprint()->field($relation)['relatedContentType'];
+                    $relatedTemplate = $newPage->blueprint()->field($relation)['relatedTemplate'];
                     $relatedPage = page($newPage->blueprint()->field($relation)['relatedPage']);
                     $relationField = $newPage->blueprint()->field($relation)['relatationField'];
                     // Getting the autoid value of the updated page

@@ -130,7 +130,7 @@ myRelatedPages:
         value: "{{ page.autoid }}"
   validate:
     unique: myRelatedPages
-  relatedContentType: myRelatedTemplate #<-- name of the template of the linked pages
+  relatedTemplate: myRelatedTemplate #<-- name of the template of the linked pages
   relatedPage: myRelatedFolder #<-- name of the parent-page of the linked pages
   relatationField: myOtherRelatedPages  #<-- name of the corresponding manytomany-field in the blueprint of linked pages
 ```
@@ -159,7 +159,7 @@ fields:
           value: "{{ page.autoid }}"
     validate:
       unique: students
-    relatedContentType: student
+    relatedTemplate: student
     relatedPage: students
     relatationField: schools
 ```
@@ -184,7 +184,7 @@ fields:
           value: "{{ page.autoid }}"
     validate:
       unique: schools
-    relatedContentType: school
+    relatedTemplate: school
     relatedPage: schools
     relatationField: students
 ```
