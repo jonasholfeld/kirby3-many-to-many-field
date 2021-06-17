@@ -50,10 +50,13 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     // Filtering deleted keys
                     $oldForeignKeys = $oldPage->$relation()->toStructure();
                     $newForeignKeys = $newPage->$relation()->toStructure();
-                    $deletedForeignKeys = array_filter($oldForeignKeys->toArray(), function($oldForeignKey) {
-                        return !in_array($oldForeignKey, $newForeignKeys->toArray());
-                    });
-
+                    
+                    $deletedForeignKeys = [];
+                    foreach($oldForeignKeys->toArray() as $oldForeignKey) {
+                        if (!in_array($oldForeignKey, $newForeignKeys->toArray())) {
+                            array_push($deletedForeignKeys, $oldForeignKey);
+                        }
+                    }
                     foreach ($deletedForeignKeys as $foreignKey) {
 
                         //Finding the related subpage
