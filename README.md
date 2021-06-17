@@ -29,6 +29,7 @@ composer require jonasholfeld/many-2-many
     - 3.3 [The unique validator](#3.3-The-unique-validator)
     - 3.4 [The relation fields](#3.4-The-relation-fields)
     - 3.5 [Corresponding blueprint](#3.5-Corresponding-blueprint)
+    - 3.6 [Additional structure fields](#3.6-Additional-structure-fields)
 
 ### 1. Install AutoID
 
@@ -73,9 +74,10 @@ It's important to use *page.autoid* as the value, you can chose what to use as t
 ```yaml
 myRelatedPages:
   type: manytomany
+  lable: My Related Pages
   fields:
     foreignkey: #<-- name needs to be *foreignkey*
-      label: My Related Pages
+      label: Related Page
       type: multiselect
       min: 1
       max: 1
@@ -95,9 +97,10 @@ Duplicate entries inside the manytomany field cause problems, so make sure to us
 ```yaml
 myRelatedPages:
   type: manytomany
+  lable: My Related Pages
   fields:
     foreignkey:
-      label: My Related Pages
+      label: Related Page
       type: multiselect
       min: 1
       max: 1
@@ -117,9 +120,10 @@ There are three equally important fields you need to add to the manytomany field
 ```yaml
 myRelatedPages:
   type: manytomany
+  lable: My Related Pages
   fields:
     foreignkey:
-      label: My Related Pages
+      label: Related Page
       type: multiselect
       min: 1
       max: 1
@@ -162,6 +166,9 @@ fields:
     relatedTemplate: student
     relatedPage: students
     relatationField: schools
+  autoid:
+    type: hidden
+    translate: false  
 ```
 
 #### **`student.yml`**
@@ -187,9 +194,76 @@ fields:
     relatedTemplate: school
     relatedPage: schools
     relatationField: students
+  autoid:
+    type: hidden
+    translate: false  
 ```
 
 Once your blueprints are setup like this, the manytomany field changes on both sides, when there is an update from one of them.  
+
+#### 3.6 Additional structure fields
+
+As mentioned above, the manytomany field is just a structure field with some special fields. That means you can add any number of fields to the structure, if you need to save some extra information about the relation, e.g. a year. Just make sure the two linked blueprints both have the extra fields in the manytomany field: 
+
+#### **`school.yml`**
+```yaml
+title: School
+fields: 
+  students:
+    type: manytomany
+    label: Students
+    fields:
+      foreignkey:
+        label: Student
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('students').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      year: #<-- some extra field
+        type: number
+    validate:
+      unique: students
+    relatedTemplate: student
+    relatedPage: students
+    relatationField: schools
+  autoid:
+    type: hidden
+    translate: false  
+```
+
+#### **`student.yml`**
+```yaml
+title: Student
+fields: 
+  schools:
+    type: manytomany
+    label: Schools
+    fields:
+      foreignkey:
+        label: School
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('schools').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      year: #<-- the same extra field
+        type: number    
+    validate:
+      unique: schools
+    relatedTemplate: school
+    relatedPage: schools
+    relatationField: students
+  autoid:
+    type: hidden
+    translate: false  
+```
 
 ## License
 

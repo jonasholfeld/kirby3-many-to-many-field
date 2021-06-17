@@ -10,7 +10,6 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
 
     'validators' => [
         'unique' => function ($value, $field) {
-            $values = array_column(YAML::decode($value));
             return count($value) == count(array_unique($value, SORT_REGULAR));
         },
     ],
