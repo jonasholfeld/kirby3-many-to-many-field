@@ -21,9 +21,9 @@ composer require jonasholfeld/many-2-many
 
 ## Setup
 
-- 1. [Install AutoID](#1.-Install-AutoID)
-- 2. [Use AutoID to identify your pages](#2.-Use-AutoID-to-identify-your-pages)
-- 3. [Setup your blueprints](#3.-Setup-your-blueprints)
+1. [Install AutoID](#1.-Install-AutoID)
+2. [Use AutoID to identify your pages](#2.-Use-AutoID-to-identify-your-pages)
+3. [Setup your blueprints](#3.-Setup-your-blueprints)
     - 3.1 [Naming and Type](#3.1-Naming-and-Type)
     - 3.2 [The foreignkey field](#3.2-The-foreignkey-field)
     - 3.3 [The unique validator](#3.3-The-unique-validator)
