@@ -2,7 +2,7 @@
 
 Kirby::plugin('jonasholfeld/many-to-many-field', [
     'fields' => [
-        'relation' => [
+        'manytomany' => [
             'extends' => 'structure',
         ],
     ],
@@ -81,7 +81,7 @@ function getRelationFields($page)
 {
     $relationFields = [];
     foreach ($page->blueprint()->fields() as $field) {
-        if ($field['type'] == 'relation') {
+        if ($field['type'] == 'manytomany') {
             array_push($relationFields, $field['name']);
         }
     }

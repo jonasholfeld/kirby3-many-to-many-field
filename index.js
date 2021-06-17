@@ -1,6 +1,6 @@
 panel.plugin("jonasholfeld/many-to-many-field", {
   fields: {
-      relation: {
+      manytomany: {
         extends: "k-structure-field"
       }
     }
