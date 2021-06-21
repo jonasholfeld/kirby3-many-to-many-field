@@ -68,7 +68,7 @@ You need to specify the type as *manytomany*:
 
 ```yaml
 myRelatedPages: #<-- name how you like
-type: manytomany
+  type: manytomany
 ```
 
 The manytomany-field inherits from the structure field, so it is setup like a normal structure-field with a couple of additional fields that need to be filled.
@@ -80,21 +80,21 @@ It's important to use *page.autoid* as the value, you can chose what to use as t
 
 ```yaml
 myRelatedPages:
-type: manytomany
-lable: My Related Pages
-fields:
-foreignkey: #<-- name needs to be *foreignkey*
-label: Related Page
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('myRelatedParentPage').childrenAndDrafts # <-- use name of parent-page of related pages here
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-validate:
-unique: theWorkToArtistRelation
+  type: manytomany
+  lable: My Related Pages
+  fields:
+    foreignkey: #<-- name needs to be *foreignkey*
+      label: Related Page
+      type: multiselect
+      min: 1
+      max: 1
+      options: query
+      query:
+        fetch: site.find('myRelatedParentPage').childrenAndDrafts # <-- use name of parent-page of related pages here
+        text: "{{ page.title }}"
+        value: "{{ page.autoid }}"
+  validate:
+    unique: theWorkToArtistRelation
 ```
 
 #### 3.3 The unique validator
@@ -103,21 +103,21 @@ Duplicate entries inside the manytomany field cause problems, so make sure to us
 
 ```yaml
 myRelatedPages:
-type: manytomany
-lable: My Related Pages
-fields:
-foreignkey:
-label: Related Page
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('myRelatedParentPage').childrenAndDrafts
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-validate:
-unique: myRelatedPages #<-- use name of your field
+  type: manytomany
+  lable: My Related Pages
+  fields:
+    foreignkey:
+      label: Related Page
+      type: multiselect
+      min: 1
+      max: 1
+      options: query
+      query:
+        fetch: site.find('myRelatedParentPage').childrenAndDrafts
+        text: "{{ page.title }}"
+        value: "{{ page.autoid }}"
+  validate:
+    unique: myRelatedPages #<-- use name of your field
 ```
 
 #### 3.4 The relation fields
@@ -126,24 +126,24 @@ There are three equally important fields you need to add to the manytomany field
 
 ```yaml
 myRelatedPages:
-type: manytomany
-lable: My Related Pages
-fields:
-foreignkey:
-label: Related Page
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('myRelatedParentPage').childrenAndDrafts
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-validate:
-unique: myRelatedPages
-relatedTemplate: myRelatedTemplate #<-- name of the template of the linked pages
-relatedPage: myRelatedFolder #<-- name of the parent-page of the linked pages
-relatationField: myOtherRelatedPages #<-- name of the corresponding manytomany-field in the blueprint of linked pages
+  type: manytomany
+  lable: My Related Pages
+  fields:
+    foreignkey:
+      label: Related Page
+      type: multiselect
+      min: 1
+      max: 1
+      options: query
+      query:
+        fetch: site.find('myRelatedParentPage').childrenAndDrafts
+        text: "{{ page.title }}"
+        value: "{{ page.autoid }}"
+  validate:
+    unique: myRelatedPages
+  relatedTemplate: myRelatedTemplate #<-- name of the template of the linked pages
+  relatedPage: myRelatedFolder #<-- name of the parent-page of the linked pages
+  relatationField: myOtherRelatedPages  #<-- name of the corresponding manytomany-field in the blueprint of linked pages
 ```
 
 #### 3.5 Corresponding blueprint
@@ -153,57 +153,59 @@ To be able to edit the relation from both sides, both blueprints of the related 
 #### **`school.yml`**
 ```yaml
 title: School
-fields:
-students:
-type: manytomany
-label: Students
-fields:
-foreignkey:
-label: Student
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('students').childrenAndDrafts
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-validate:
-unique: students
-relatedTemplate: student
-relatedPage: students
-relatationField: schools
-autoid:
-type: hidden
-translate: false
+fields: 
+  students:
+    type: manytomany
+    label: Students
+    fields:
+      foreignkey:
+        label: Student
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('students').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+    validate:
+      unique: students
+    relatedTemplate: student
+    relatedPage: students
+    relatationField: schools
+  autoid:
+    type: hidden
+    translate: false  
 ```
 
 #### **`student.yml`**
 ```yaml
-title: Student
-fields:
-schools:
-type: manytomany
-label: Schools
-fields:
-foreignkey:
-label: School
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('schools').childrenAndDrafts
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-validate:
-unique: schools
-relatedTemplate: school
-relatedPage: schools
-relatationField: students
-autoid:
-type: hidden
-translate: false
+title: School
+fields: 
+  students:
+    type: manytomany
+    label: Students
+    fields:
+      foreignkey:
+        label: Student
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('students').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      year: #<-- some extra field
+        type: number
+    validate:
+      unique: students
+    relatedTemplate: student
+    relatedPage: students
+    relatationField: schools
+  autoid:
+    type: hidden
+    translate: false 
 ```
 
 Once your blueprints are setup like this, the manytomany field changes on both sides, when there is an update from one of them.
@@ -215,61 +217,61 @@ As mentioned above, the manytomany field is just a structure field with some spe
 #### **`school.yml`**
 ```yaml
 title: School
-fields:
-students:
-type: manytomany
-label: Students
-fields:
-foreignkey:
-label: Student
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('students').childrenAndDrafts
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-year: #<-- some extra field
-type: number
-validate:
-unique: students
-relatedTemplate: student
-relatedPage: students
-relatationField: schools
-autoid:
-type: hidden
-translate: false
+fields: 
+  students:
+    type: manytomany
+    label: Students
+    fields:
+      foreignkey:
+        label: Student
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('students').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      year: #<-- some extra field
+        type: number
+    validate:
+      unique: students
+    relatedTemplate: student
+    relatedPage: students
+    relatationField: schools
+  autoid:
+    type: hidden
+    translate: false 
 ```
 
 #### **`student.yml`**
 ```yaml
 title: Student
-fields:
-schools:
-type: manytomany
-label: Schools
-fields:
-foreignkey:
-label: School
-type: multiselect
-min: 1
-max: 1
-options: query
-query:
-fetch: site.find('schools').childrenAndDrafts
-text: "{{ page.title }}"
-value: "{{ page.autoid }}"
-year: #<-- the same extra field
-type: number
-validate:
-unique: schools
-relatedTemplate: school
-relatedPage: schools
-relatationField: students
-autoid:
-type: hidden
-translate: false
+fields: 
+  schools:
+    type: manytomany
+    label: Schools
+    fields:
+      foreignkey:
+        label: School
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('schools').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      year: #<-- the same extra field
+        type: number    
+    validate:
+      unique: schools
+    relatedTemplate: school
+    relatedPage: schools
+    relatationField: students
+  autoid:
+    type: hidden
+    translate: false  
 ```
 
 ## License
