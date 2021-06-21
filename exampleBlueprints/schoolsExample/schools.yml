@@ -2,7 +2,7 @@ title: Schools
 
 sections:
 
-  children:
-    headline: Schools
-    type: pages
-    templates: school
+    children:
+        headline: Schools
+        type: pages
+        templates: school
