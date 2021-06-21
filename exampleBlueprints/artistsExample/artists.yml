@@ -2,7 +2,7 @@ title: Artists
 
 sections:
 
-  children:
-    headline: Artists
-    type: pages
-    templates: artist
+    children:
+        headline: Artists
+        type: pages
+        templates: artist
