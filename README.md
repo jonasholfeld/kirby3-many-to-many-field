@@ -48,8 +48,8 @@ Both blueprints of the pages you want to have a many-2-many relation need to hav
 
 ```yaml
 autoid:
-type: hidden
-translate: false
+  type: hidden
+  translate: false
 ```
 
 The AutoID plugin automatically generates a unique ID for every page that will be created after it's install. If some pages already exist without an ID, you can force a [re-index](https://github.com/bnomei/kirby3-autoid/wiki/Force-Re-index).
