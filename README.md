@@ -58,7 +58,7 @@ The AutoID plugin automatically generates a unique ID for every page that will b
 
 The many-to-many plugin gets all its information about the related pages from your blueprints, so it’s essential to set them up right. You can check out the [example blueprints](exampleBlueprints) to get a better idea about how to setup yours.
 
-Both blueprints need the many-to-many field in order to connect the pages correctly. As it’s important to set them up correctly, the following text explains every step bit by bit.
+Both blueprints need the manytomany field in order to connect the pages correctly. As it’s important to set them up correctly, the following text explains every step bit by bit.
 
 #### 3.1 Naming and Type
 
