@@ -148,7 +148,7 @@ myRelatedPages:
 
 #### 3.5 Corresponding blueprint
 
-To be able to edit the relation from both sides, both blueprints of the related pages need to have a field of type manytomany. They need to have corresponding values in the specific fields. Here is an example of two blueprints, in this case with a relation between students and schools.
+To be able to edit the relation from both sides, both blueprints of the related pages need to have a field of the type manytomany. They need to have corresponding values in the specific fields. Here is an example of two blueprints, in this case with a relation between students and schools.
 
 #### **`school.yml`**
 ```yaml
