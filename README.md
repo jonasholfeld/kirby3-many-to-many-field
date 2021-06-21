@@ -4,7 +4,7 @@ This plugin allows you to create many-to-many relationships between pages in Kir
 
 You need to install the [AutoId plugin](https://github.com/bnomei/kirby3-autoid) by Bnomei to your project as well for this plugin to work.
 
-This plugin uses two hooks: the *page.update:after* and the *page.delete:before* hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperately as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
+This plugin uses two hooks: the [page.update:after](https://getkirby.com/docs/reference/plugins/hooks/page-update-after) and the [page.delete:before](https://getkirby.com/docs/reference/plugins/hooks/page-delete-before) hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperately as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
 
 ![many-to-many-kirby3](https://user-images.githubusercontent.com/282518/122782365-f3b90c80-d2b0-11eb-8428-9b4efecbc713.jpg)
 
