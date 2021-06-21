@@ -8,6 +8,7 @@ You need to install the AutoId plugin by Bnomei to your project as well for this
 This plugin uses two hooks: the *page.update:after* and the *page.delete:before* hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperatly as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
 
 Example: 
+
 ![er-diagram](https://user-images.githubusercontent.com/52667313/122769717-19d8af80-d2a5-11eb-965d-566ebd90f996.jpeg)
 
 ![Bildschirmfoto 2021-06-21 um 15 22 42](https://user-images.githubusercontent.com/52667313/122769741-1fce9080-d2a5-11eb-84a6-97f0bd01a4a7.png)
