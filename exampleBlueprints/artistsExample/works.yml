@@ -2,7 +2,7 @@ title: Works
 
 sections:
 
-  children:
-    headline: Works
-    type: pages
-    templates: work
+    children:
+        headline: Works
+        type: pages
+        templates: work
