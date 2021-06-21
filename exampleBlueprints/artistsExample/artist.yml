@@ -16,7 +16,7 @@ fields:
                     text: "{{ page.title }}"
                     value: "{{ page.autoid }}"
         validate:
-          unique: works
+            unique: works
         relatedContentType: work
         relatedPage: works
         relatationField: author
