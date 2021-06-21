@@ -52,11 +52,11 @@ autoid:
   translate: false
 ```
 
-The AutoID plugin automatically generates a unique ID for every page that will be created after it's install. If some pages already exist without an ID, you can force a [re-index](https://github.com/bnomei/kirby3-autoid/wiki/Force-Re-index).
+The AutoID plugin automatically generates a unique ID for every page that will be created after it’s install. If some pages already exist without an ID, you can force a [re-index](https://github.com/bnomei/kirby3-autoid/wiki/Force-Re-index).
 
 ### 3. Setup your blueprints
 
-The many-2-many plugin gets all its information about the related pages from your blueprints, so its essential to set them up right. You can check out the [example blueprints](exampleBlueprints) to get a better idea about how to setup yours.
+The many-to-many plugin gets all its information about the related pages from your blueprints, so its essential to set them up right. You can check out the [example blueprints](exampleBlueprints) to get a better idea about how to setup yours.
 
 Both blueprints need the many-to-many field in order to connect the pages correctly. As it's important to set them up correctly, I explain every field bit by bit.
 
