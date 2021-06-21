@@ -281,4 +281,4 @@ MIT
 ## Credits
 
 - [Jonas Holfeld](https://github.com/jonasholfeld)
-- Developed during my internship and with the friendly support of [Christoph Knoth](https://github.com/christophknoth) and Konrad Renner at [Knoth und Renner](http://knoth-renner.com/)
+- Developed during my internship and with the friendly support of [Christoph Knoth](https://github.com/christophknoth) and Konrad Renner at [Knoth und Renner](https://knoth-renner.com/)
