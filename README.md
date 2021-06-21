@@ -2,7 +2,7 @@
 
 This plugin allows you to create many-to-many relationships between pages in Kirby. The relationship is bidirectional, meaning it can be edited from either side and is automatically updated on the other side. The relationship can have attributes that can be updated from both sides as well. You can define multiple many-to-many relations on one page. If a page with a relation to one or many other pages gets deleted, all relations to this page get deleted as well.
 
-You need to install the AutoId plugin by Bnomei to your project as well for this plugin to work.
+You need to install the [AutoId plugin](https://github.com/bnomei/kirby3-autoid) by Bnomei to your project as well for this plugin to work.
 
 This plugin uses two hooks: the *page.update:after* and the *page.delete:before* hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperately as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
 
