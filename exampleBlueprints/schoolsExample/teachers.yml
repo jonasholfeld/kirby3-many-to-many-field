@@ -2,7 +2,7 @@ title: Teachers
 
 sections:
 
-  children:
-    headline: Teachers
-    type: pages
-    templates: teacher
+    children:
+        headline: Teachers
+        type: pages
+        templates: teacher
