@@ -1,13 +1,13 @@
 ****
 # Kirby 3 Many To Many Field
 
-This plugin gives you the possibility of a many-to-many relationship between pages in Kirby. The relationship is bidirectional, meaning it can be edited from either side and is automatically updated on the other side. The relationship can have attributes who can be updated from both sides as well. You can define multiple many-to-many relations on one page. If a page with a relation to one or many other pages gets deleted, all relations get deleted in the related pages as well. 
+This plugin gives you the possibility of a many-to-many relationship between pages in Kirby. The relationship is bidirectional, meaning it can be edited from either side and is automatically updated on the other side. The relationship can have attributes that can be updated from both sides as well. You can define multiple many-to-many relations on one page. If a page with a relation to one or many other pages gets deleted, all relations get deleted in the related pages as well.
 
-You need to install the AutoId plugin by Bnomei to your project as well for this plugin to work. 
+You need to install the AutoId plugin by Bnomei to your project as well for this plugin to work.
 
-This plugin uses two hooks: the *page.update:after* and the *page.delete:before* hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperatly as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
+This plugin uses two hooks: the *page.update:after* and the *page.delete:before* hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperately as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
 
-Example: 
+Example:
 
 ![er-diagram](https://user-images.githubusercontent.com/52667313/122769717-19d8af80-d2a5-11eb-965d-566ebd90f996.jpeg)
 
@@ -38,12 +38,12 @@ composer require jonasholfeld/many-2-many
 1. [Install AutoID](#1-Install-AutoID)
 2. [Use AutoID to identify your pages](#2-Use-AutoID-to-identify-your-pages)
 3. [Setup your blueprints](#3-Setup-your-blueprints)
-    - 3.1 [Naming and Type](#31-Naming-and-Type)
-    - 3.2 [The foreignkey field](#32-The-foreignkey-field)
-    - 3.3 [The unique validator](#33-The-unique-validator)
-    - 3.4 [The relation fields](#34-The-relation-fields)
-    - 3.5 [Corresponding blueprint](#35-Corresponding-blueprint)
-    - 3.6 [Additional structure fields](#36-Additional-structure-fields)
+- 3.1 [Naming and Type](#31-Naming-and-Type)
+- 3.2 [The foreignkey field](#32-The-foreignkey-field)
+- 3.3 [The unique validator](#33-The-unique-validator)
+- 3.4 [The relation fields](#34-The-relation-fields)
+- 3.5 [Corresponding blueprint](#35-Corresponding-blueprint)
+- 3.6 [Additional structure fields](#36-Additional-structure-fields)
 
 ### 1. Install AutoID
 
@@ -55,17 +55,17 @@ Both blueprints of the pages you want to have a many-2-many relation need to hav
 
 ```yaml
 autoid:
-    type: hidden
-    translate: false
+type: hidden
+translate: false
 ```
 
-The AutoID plugin automatically generates an unique ID for every page that will be created after it's install. If some pages already exist without an ID, you can force a [re-index](https://github.com/bnomei/kirby3-autoid/wiki/Force-Re-index).
+The AutoID plugin automatically generates a unique ID for every page that will be created after it's install. If some pages already exist without an ID, you can force a [re-index](https://github.com/bnomei/kirby3-autoid/wiki/Force-Re-index).
 
 ### 3. Setup your blueprints
 
 The many-2-many plugin gets all its information about the related pages from your blueprints, so its essential to set them up right. You can check out the [example blueprints](exampleBlueprints) to get a better idea about how to setup yours.
 
-Both blueprints need the many-to-many field in order to connect the pages correctly. As it's important to set them up correctly i explain every field bit by bit.
+Both blueprints need the many-to-many field in order to connect the pages correctly. As it's important to set them up correctly, I explain every field bit by bit.
 
 #### 3.1 Naming and Type
 
@@ -75,33 +75,33 @@ You need to specify the type as *manytomany*:
 
 ```yaml
 myRelatedPages: #<-- name how you like
-  type: manytomany
+type: manytomany
 ```
 
 The manytomany-field inherits from the structure field, so it is setup like a normal structure-field with a couple of additional fields that need to be filled.
 
 #### 3.2 The foreignkey field
 
-The foreignkey field is the field inside our manytomany-field that saves the "foreign keys". In our case they are  the ID's created by the autoID plugin. You create a field inside the manytomany-field called "foreignkey" that is a multiselect that queries it's options from the pages you would like to link to. To be more specific, it queries the children of a given page, so you need to specify the name of the parent-page to whose subpages you would like to link to.
-It's important to use *page.autoid* as the value, you can chose what to use as the text, but i recomend to use *page.title* to identify the pages.
+The foreignkey field is the field inside our manytomany-field that saves the "foreign keys". In our case they are the ID's created by the autoID plugin. You create a field inside the manytomany-field called "foreignkey" that is a multiselect that queries it's options from the pages you would like to link to. To be more specific, it queries the children of a given page, so you need to specify the name of the parent-page to whose subpages you would like to link to.
+It's important to use *page.autoid* as the value, you can chose what to use as the text, but I recommend to use *page.title* to identify the pages.
 
 ```yaml
 myRelatedPages:
-  type: manytomany
-  lable: My Related Pages
-  fields:
-    foreignkey: #<-- name needs to be *foreignkey*
-      label: Related Page
-      type: multiselect
-      min: 1
-      max: 1
-      options: query
-      query:
-        fetch: site.find('myRelatedParentPage').childrenAndDrafts # <-- use name of parent-page of related pages here
-        text: "{{ page.title }}"
-        value: "{{ page.autoid }}"
-  validate:
-    unique: theWorkToArtistRelation
+type: manytomany
+lable: My Related Pages
+fields:
+foreignkey: #<-- name needs to be *foreignkey*
+label: Related Page
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('myRelatedParentPage').childrenAndDrafts # <-- use name of parent-page of related pages here
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+validate:
+unique: theWorkToArtistRelation
 ```
 
 #### 3.3 The unique validator
@@ -110,21 +110,21 @@ Duplicate entries inside the manytomany field cause problems, so make sure to us
 
 ```yaml
 myRelatedPages:
-  type: manytomany
-  lable: My Related Pages
-  fields:
-    foreignkey:
-      label: Related Page
-      type: multiselect
-      min: 1
-      max: 1
-      options: query
-      query:
-        fetch: site.find('myRelatedParentPage').childrenAndDrafts
-        text: "{{ page.title }}"
-        value: "{{ page.autoid }}"
-  validate:
-    unique: myRelatedPages #<-- use name of your field
+type: manytomany
+lable: My Related Pages
+fields:
+foreignkey:
+label: Related Page
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('myRelatedParentPage').childrenAndDrafts
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+validate:
+unique: myRelatedPages #<-- use name of your field
 ```
 
 #### 3.4 The relation fields
@@ -133,150 +133,150 @@ There are three equally important fields you need to add to the manytomany field
 
 ```yaml
 myRelatedPages:
-  type: manytomany
-  lable: My Related Pages
-  fields:
-    foreignkey:
-      label: Related Page
-      type: multiselect
-      min: 1
-      max: 1
-      options: query
-      query:
-        fetch: site.find('myRelatedParentPage').childrenAndDrafts
-        text: "{{ page.title }}"
-        value: "{{ page.autoid }}"
-  validate:
-    unique: myRelatedPages
-  relatedTemplate: myRelatedTemplate #<-- name of the template of the linked pages
-  relatedPage: myRelatedFolder #<-- name of the parent-page of the linked pages
-  relatationField: myOtherRelatedPages  #<-- name of the corresponding manytomany-field in the blueprint of linked pages
+type: manytomany
+lable: My Related Pages
+fields:
+foreignkey:
+label: Related Page
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('myRelatedParentPage').childrenAndDrafts
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+validate:
+unique: myRelatedPages
+relatedTemplate: myRelatedTemplate #<-- name of the template of the linked pages
+relatedPage: myRelatedFolder #<-- name of the parent-page of the linked pages
+relatationField: myOtherRelatedPages #<-- name of the corresponding manytomany-field in the blueprint of linked pages
 ```
 
 #### 3.5 Corresponding blueprint
 
-To be able to edit the relation from both sides, both blueprints of the related pages need to have a field of type manytomany. They need to have corresponding values in the specific fields. Here is a example of two blueprints, in this case with a relation between students and schools.
+To be able to edit the relation from both sides, both blueprints of the related pages need to have a field of type manytomany. They need to have corresponding values in the specific fields. Here is an example of two blueprints, in this case with a relation between students and schools.
 
 #### **`school.yml`**
 ```yaml
 title: School
-fields: 
-  students:
-    type: manytomany
-    label: Students
-    fields:
-      foreignkey:
-        label: Student
-        type: multiselect
-        min: 1
-        max: 1
-        options: query
-        query:
-          fetch: site.find('students').childrenAndDrafts
-          text: "{{ page.title }}"
-          value: "{{ page.autoid }}"
-    validate:
-      unique: students
-    relatedTemplate: student
-    relatedPage: students
-    relatationField: schools
-  autoid:
-    type: hidden
-    translate: false  
+fields:
+students:
+type: manytomany
+label: Students
+fields:
+foreignkey:
+label: Student
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('students').childrenAndDrafts
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+validate:
+unique: students
+relatedTemplate: student
+relatedPage: students
+relatationField: schools
+autoid:
+type: hidden
+translate: false
 ```
 
 #### **`student.yml`**
 ```yaml
 title: Student
-fields: 
-  schools:
-    type: manytomany
-    label: Schools
-    fields:
-      foreignkey:
-        label: School
-        type: multiselect
-        min: 1
-        max: 1
-        options: query
-        query:
-          fetch: site.find('schools').childrenAndDrafts
-          text: "{{ page.title }}"
-          value: "{{ page.autoid }}"
-    validate:
-      unique: schools
-    relatedTemplate: school
-    relatedPage: schools
-    relatationField: students
-  autoid:
-    type: hidden
-    translate: false  
+fields:
+schools:
+type: manytomany
+label: Schools
+fields:
+foreignkey:
+label: School
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('schools').childrenAndDrafts
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+validate:
+unique: schools
+relatedTemplate: school
+relatedPage: schools
+relatationField: students
+autoid:
+type: hidden
+translate: false
 ```
 
-Once your blueprints are setup like this, the manytomany field changes on both sides, when there is an update from one of them.  
+Once your blueprints are setup like this, the manytomany field changes on both sides, when there is an update from one of them.
 
 #### 3.6 Additional structure fields
 
-As mentioned above, the manytomany field is just a structure field with some special fields. That means you can add any number of fields to the structure, if you need to save some extra information about the relation, e.g. a year. Just make sure the two linked blueprints both have the extra fields in the manytomany field: 
+As mentioned above, the manytomany field is just a structure field with some special fields. That means you can add any number of fields to the structure, if you need to save some extra information about the relation, e.g. a year. Just make sure the two linked blueprints both have the extra fields in the manytomany field:
 
 #### **`school.yml`**
 ```yaml
 title: School
-fields: 
-  students:
-    type: manytomany
-    label: Students
-    fields:
-      foreignkey:
-        label: Student
-        type: multiselect
-        min: 1
-        max: 1
-        options: query
-        query:
-          fetch: site.find('students').childrenAndDrafts
-          text: "{{ page.title }}"
-          value: "{{ page.autoid }}"
-      year: #<-- some extra field
-        type: number
-    validate:
-      unique: students
-    relatedTemplate: student
-    relatedPage: students
-    relatationField: schools
-  autoid:
-    type: hidden
-    translate: false  
+fields:
+students:
+type: manytomany
+label: Students
+fields:
+foreignkey:
+label: Student
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('students').childrenAndDrafts
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+year: #<-- some extra field
+type: number
+validate:
+unique: students
+relatedTemplate: student
+relatedPage: students
+relatationField: schools
+autoid:
+type: hidden
+translate: false
 ```
 
 #### **`student.yml`**
 ```yaml
 title: Student
-fields: 
-  schools:
-    type: manytomany
-    label: Schools
-    fields:
-      foreignkey:
-        label: School
-        type: multiselect
-        min: 1
-        max: 1
-        options: query
-        query:
-          fetch: site.find('schools').childrenAndDrafts
-          text: "{{ page.title }}"
-          value: "{{ page.autoid }}"
-      year: #<-- the same extra field
-        type: number    
-    validate:
-      unique: schools
-    relatedTemplate: school
-    relatedPage: schools
-    relatationField: students
-  autoid:
-    type: hidden
-    translate: false  
+fields:
+schools:
+type: manytomany
+label: Schools
+fields:
+foreignkey:
+label: School
+type: multiselect
+min: 1
+max: 1
+options: query
+query:
+fetch: site.find('schools').childrenAndDrafts
+text: "{{ page.title }}"
+value: "{{ page.autoid }}"
+year: #<-- the same extra field
+type: number
+validate:
+unique: schools
+relatedTemplate: school
+relatedPage: schools
+relatationField: students
+autoid:
+type: hidden
+translate: false
 ```
 
 ## License
