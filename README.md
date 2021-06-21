@@ -71,7 +71,7 @@ myRelatedPages: #<-- name how you like
   type: manytomany
 ```
 
-The manytomany-field inherits from the structure field, so it is setup like a normal structure-field with a couple of additional fields that need to be filled.
+The manytomany-field inherits from the [structure field](https://getkirby.com/docs/reference/panel/fields/structure), so it is setup like a normal structure-field with a couple of additional fields that need to be filled.
 
 #### 3.2 The foreignkey field
 
