@@ -75,8 +75,8 @@ The manytomany-field inherits from the [structure field](https://getkirby.com/do
 
 #### 3.2 The foreignkey field
 
-The foreignkey field is the field inside our manytomany-field that saves the "foreign keys". In our case they are the IDs created by the autoID plugin. You create a field inside the manytomany-field called "foreignkey" that is a multiselect that queries it's options from the pages you would like to link to. To be more specific, it queries the children of a given page, so you need to specify the name of the parent-page to whose subpages you would like to link to.
-It's important to use *page.autoid* as the value, you can chose what to use as the text, but I recommend to use *page.title* to identify the pages.
+The foreignkey field is the field inside our manytomany-field that saves the "foreign keys". In our case they are the IDs created by the autoID plugin. You create a field inside the manytomany-field called "foreignkey" that is a multiselect that queries its options from the pages you would like to link to. To be more specific, it queries the children of a given page, so you need to specify the name of the parent-page to whose subpages you would like to link to.
+It is important to use *page.autoid* as the value, you can chose what to use as the text, but I recommend to use *page.title* to identify the pages.
 
 ```yaml
 myRelatedPages:
