@@ -33,7 +33,7 @@ fields:
                     3d: 3D
                     web: Web
         validate:
-          unique: employers
+            unique: employers
         relatedContentType: school
         relatedPage: schools
         relatationField: employees
