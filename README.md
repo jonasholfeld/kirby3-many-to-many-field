@@ -12,18 +12,18 @@ This plugin uses two hooks: the [page.update:after](https://getkirby.com/docs/re
 
 ### Download
 
-Download and copy this repository to `/site/plugins/kirby3-many-2-many`.
+Download and copy this repository to `/site/plugins/kirby3-many-to-many-field`.
 
 ### Git submodule
 
 ```
-git submodule add https://github.com/jonasholfeld/kirby3-many-2-many.git site/plugins/kirby3-many-2-many
+git submodule add https://github.com/jonasholfeld/kirby3-many-to-many-field.git site/plugins/kirby3-many-to-many-field
 ```
 
 ### Composer
 
 ```
-composer require jonasholfeld/many-2-many
+composer require jonasholfeld/kirby3-many-to-many-field
 ```
 
 ## Setup
