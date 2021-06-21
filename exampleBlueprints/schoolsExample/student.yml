@@ -25,7 +25,7 @@ fields:
                 label: Degree
                 type: text    
         validate:
-          unique: degrees
+            unique: degrees
         relatedContentType: school
         relatedPage: schools
         relatationField: graduats
