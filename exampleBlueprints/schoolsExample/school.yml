@@ -22,7 +22,7 @@ fields:
                 label: Degree
                 type: text
         validate:
-          unique: graduats
+            unique: graduats
         relatedContentType: student
         relatedPage: students
         relatationField: degrees
@@ -56,7 +56,7 @@ fields:
                     3d: 3D
                     web: Web
         validate:
-          unique: employees
+            unique: employees
         relatedContentType: teacher
         relatedPage: teachers
         relatationField: employers    
