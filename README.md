@@ -71,34 +71,34 @@ You can use and adjust these two blueprints to setup a relation between two page
 title: Project
 
 fields:
-    description:
-        type: text
-        label: Description
+  description:
+    type: text
+    label: Description
 
-    employees:
-        type: manytomany
-        label: Employees
-        fields:
-            foreignkey:
-                label: Employee
-                type: multiselect
-                min: 1
-                max: 1
-                options: query
-                query:
-                    fetch: site.find('employees').childrenAndDrafts
-                    text: "{{ page.title }}"
-                    value: "{{ page.autoid }}"
-            hours:
-                type: number
-                label: Number of hours
-        validate:
-            unique: employees
-        relatedPage: employees
-        relatationField: projects
-        
-    autoid:
-          translate: false
+  employees:
+    type: manytomany
+    label: Employees
+    fields:
+      foreignkey:
+        label: Employee
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('employees').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      hours:
+        type: number
+        label: Number of hours
+    validate:
+      unique: employees
+    relatedPage: employees
+    relatationField: projects
+    
+  autoid:
+      translate: false
 ```
 
 #### **`employee.yml`**
@@ -107,34 +107,34 @@ fields:
 title: Employee
 
 fields:
-    age:
-        type: number
-        label: Age
+  age:
+    type: number
+    label: Age
 
-    projects:
-        type: manytomany
-        label: Projects
-        fields:
-            foreignkey:
-                label: Project
-                type: multiselect
-                min: 1
-                max: 1
-                options: query
-                query:
-                    fetch: site.find('projects').childrenAndDrafts
-                    text: "{{ page.title }}"
-                    value: "{{ page.autoid }}"
-            hours:
-                type: number
-                label: Number of hours
-        validate:
-            unique: projects
-        relatedPage: projects
-        relatationField: employees
-        
-    autoid:
-          translate: false
+  projects:
+    type: manytomany
+    label: Projects
+    fields:
+      foreignkey:
+        label: Project
+        type: multiselect
+        min: 1
+        max: 1
+        options: query
+        query:
+          fetch: site.find('projects').childrenAndDrafts
+          text: "{{ page.title }}"
+          value: "{{ page.autoid }}"
+      hours:
+        type: number
+        label: Number of hours
+    validate:
+      unique: projects
+    relatedPage: projects
+    relatationField: employees
+    
+  autoid:
+      translate: false
 ```
 
 #### 3.1 Naming and Type
