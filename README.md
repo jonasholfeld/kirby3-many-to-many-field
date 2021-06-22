@@ -172,7 +172,7 @@ myRelatedPages:
         text: "{{ page.title }}"
         value: "{{ page.autoid }}"
   validate:
-    unique: theWorkToArtistRelation
+    unique: myRelatedPages
 ...
 ```
 
