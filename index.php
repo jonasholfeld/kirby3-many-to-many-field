@@ -27,16 +27,23 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 if (relationIsChanged($newPage, $oldPage, $relation)) {
 
                     // Getting Content type and page from the blueprint of the updated page
-                    $relatedTemplate = $newPage->blueprint()->field($relation)['relatedTemplate'];
                     $relatedPage = page($newPage->blueprint()->field($relation)['relatedPage']);
                     $relationField = $newPage->blueprint()->field($relation)['relatationField'];
-
+                    
                     // Getting the autoid value of the updated page
-                    $primaryKey = $newPage->AUTOID();
+                    try {
+                        $primaryKey = $newPage->AUTOID();
+                    } catch (Throwable $e) {
+                        throw new Exception('Many to Many Field Plugin: Updated page needs autoid field to create a relation.  '.$e->getMessage());
+                    }
 
                     foreach ($newPage->$relation()->toStructure() as $singleRelation) {
                         // Fetching the related subpage
-                        $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $singleRelation->toArray()['foreignkey']);
+                        try {
+                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $singleRelation->toArray()['foreignkey']);
+                        } catch (Throwable $e) {
+                            throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
+                        }
                         // Changing the relation entry so it links to autoid of updated page
                         $singleRelationAtForeign = $singleRelation->toArray();
                         $singleRelationAtForeign['foreignkey'] = $primaryKey;
@@ -59,7 +66,11 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     foreach ($deletedForeignKeys as $foreignKey) {
 
                         //Finding the related subpage
-                        $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
+                        try {
+                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
+                        } catch (Throwable $e) {
+                            throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
+                        }
                         
                         //Chaning the relation-entry so it matches the entry at subpage
                         $singleRelationAtForeign = $foreignKey;
@@ -162,7 +173,11 @@ function relationIsChanged($newPage, $oldPage, $relation)
 function addRelation($page, $value, $relationField)
 {
     // Getting relations field from page to add to
-    $fieldData = YAML::decode(page($page)->$relationField()->value());
+    try {
+        $fieldData = YAML::decode(page($page)->$relationField()->value());
+    } catch (Throwable $e) {
+        throw new Exception('Many to Many Field Plugin: related page or relatation field is faulty or missing. '.$e->getMessage());
+    }
 
     // Getting Length of relations field before insert
     $fieldLengthBefore = count($fieldData);

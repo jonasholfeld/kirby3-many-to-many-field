@@ -34,7 +34,6 @@ fields:
                     web: Web
         validate:
             unique: employers
-        relatedContentType: school
         relatedPage: schools
         relatationField: employees
 

@@ -31,6 +31,7 @@ composer require jonasholfeld/kirby3-many-to-many-field
 1. [Install AutoID](#1-Install-AutoID)
 2. [Use AutoID to identify your pages](#2-Use-AutoID-to-identify-your-pages)
 3. [Setup your blueprints](#3-Setup-your-blueprints)
+- 3.0.1 [Quickstart](#301-Quickstart ) 
 - 3.1 [Naming and Type](#31-Naming-and-Type)
 - 3.2 [The foreignkey field](#32-The-foreignkey-field)
 - 3.3 [The unique validator](#33-The-unique-validator)
@@ -60,6 +61,82 @@ The many-to-many plugin gets all its information about the related pages from yo
 
 Both blueprints need the manytomany field in order to connect the pages correctly. As it’s important to set them up correctly, the following text explains every step bit by bit.
 
+### 3.0.1 Quickstart 
+
+You can use and adjust these two blueprints to setup a relation between two pages with the plugin. It implements the classic Employee <--> Project relation you might know from database examples (see ER-diagram above). Make sure to rename all fields according to your situation. To fully understand all the fields and adjust them to your situation you should read on. 
+
+#### **`project.yml`**
+
+```yaml
+title: Project
+
+fields:
+    description:
+        type: text
+        label: Description
+
+    employees:
+        type: manytomany
+        label: Employees
+        fields:
+            foreignkey:
+                label: Employee
+                type: multiselect
+                min: 1
+                max: 1
+                options: query
+                query:
+                    fetch: site.find('employees').childrenAndDrafts
+                    text: "{{ page.title }}"
+                    value: "{{ page.autoid }}"
+            hours:
+                type: number
+                label: Number of hours
+        validate:
+            unique: employees
+        relatedPage: employees
+        relatationField: projects
+        
+    autoid:
+          translate: false
+```
+
+#### **`employee.yml`**
+
+```yaml
+title: Employee
+
+fields:
+    age:
+        type: number
+        label: Age
+
+    projects:
+        type: manytomany
+        label: Projects
+        fields:
+            foreignkey:
+                label: Project
+                type: multiselect
+                min: 1
+                max: 1
+                options: query
+                query:
+                    fetch: site.find('projects').childrenAndDrafts
+                    text: "{{ page.title }}"
+                    value: "{{ page.autoid }}"
+            hours:
+                type: number
+                label: Number of hours
+        validate:
+            unique: projects
+        relatedPage: projects
+        relatationField: employees
+        
+    autoid:
+          translate: false
+```
+
 #### 3.1 Naming and Type
 
 You can name the field how you like. A name hinting to the nature of the relation or the templates of the related pages might be helpful.
@@ -69,6 +146,7 @@ You need to specify the type as *manytomany*:
 ```yaml
 myRelatedPages: #<-- name how you like
   type: manytomany
+...
 ```
 
 The manytomany-field inherits from the [structure field](https://getkirby.com/docs/reference/panel/fields/structure), so it is setup like a normal structure-field with a couple of additional fields that need to be filled.
@@ -95,6 +173,7 @@ myRelatedPages:
         value: "{{ page.autoid }}"
   validate:
     unique: theWorkToArtistRelation
+...
 ```
 
 #### 3.3 The unique validator
@@ -118,6 +197,7 @@ myRelatedPages:
         value: "{{ page.autoid }}"
   validate:
     unique: myRelatedPages #<-- use name of your field
+...
 ```
 
 #### 3.4 The relation fields
@@ -141,9 +221,9 @@ myRelatedPages:
         value: "{{ page.autoid }}"
   validate:
     unique: myRelatedPages
-  relatedTemplate: myRelatedTemplate #<-- name of the template of the linked pages
   relatedPage: myRelatedFolder #<-- name of the parent-page of the linked pages
   relatationField: myOtherRelatedPages  #<-- name of the corresponding manytomany-field in the blueprint of linked pages
+...
 ```
 
 #### 3.5 Corresponding blueprint
@@ -170,7 +250,6 @@ fields:
           value: "{{ page.autoid }}"
     validate:
       unique: students
-    relatedTemplate: student
     relatedPage: students
     relatationField: schools
   autoid:
@@ -196,11 +275,10 @@ fields:
           fetch: site.find('students').childrenAndDrafts
           text: "{{ page.title }}"
           value: "{{ page.autoid }}"
-      year: #<-- some extra field
+      year:
         type: number
     validate:
       unique: students
-    relatedTemplate: student
     relatedPage: students
     relatationField: schools
   autoid:
@@ -236,7 +314,6 @@ fields:
         type: number
     validate:
       unique: students
-    relatedTemplate: student
     relatedPage: students
     relatationField: schools
   autoid:
@@ -266,7 +343,6 @@ fields:
         type: number    
     validate:
       unique: schools
-    relatedTemplate: school
     relatedPage: schools
     relatationField: students
   autoid:
