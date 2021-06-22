@@ -26,7 +26,6 @@ fields:
                 type: text    
         validate:
             unique: degrees
-        relatedContentType: school
         relatedPage: schools
         relatationField: graduats
         

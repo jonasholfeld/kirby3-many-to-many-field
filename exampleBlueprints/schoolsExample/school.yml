@@ -23,7 +23,6 @@ fields:
                 type: text
         validate:
             unique: graduats
-        relatedContentType: student
         relatedPage: students
         relatationField: degrees
         
@@ -57,7 +56,6 @@ fields:
                     web: Web
         validate:
             unique: employees
-        relatedContentType: teacher
         relatedPage: teachers
         relatationField: employers    
         

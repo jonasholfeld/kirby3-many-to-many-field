@@ -24,7 +24,6 @@ fields:
                 label: Number of hours
         validate:
             unique: projects
-        relatedTemplate: project
         relatedPage: projects
         relatationField: employees
         
