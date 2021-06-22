@@ -61,7 +61,7 @@ The many-to-many plugin gets all its information about the related pages from yo
 
 Both blueprints need the manytomany field in order to connect the pages correctly. As it’s important to set them up correctly, the following text explains every step bit by bit.
 
-### 3.0.1 Quickstart 
+#### 3.0.1 Quickstart 
 
 You can use and adjust these two blueprints to setup a relation between two pages with the plugin. It implements the classic Employee <--> Project relation you might know from database examples (see ER-diagram above). Make sure to rename all fields according to your situation. To fully understand all the fields and adjust them to your situation you should read on. 
 
