@@ -98,7 +98,7 @@ fields:
     relatationField: projects
     
   autoid:
-      translate: false
+    translate: false
 ```
 
 #### **`employee.yml`**
@@ -134,7 +134,7 @@ fields:
     relatationField: employees
     
   autoid:
-      translate: false
+    translate: false
 ```
 
 #### 3.1 Naming and Type
