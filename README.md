@@ -38,6 +38,7 @@ composer require jonasholfeld/kirby3-many-to-many-field
 - 3.4 [The relation fields](#34-The-relation-fields)
 - 3.5 [Corresponding blueprint](#35-Corresponding-blueprint)
 - 3.6 [Additional structure fields](#36-Additional-structure-fields)
+- 3.7 [How to use in templates](#37-How-to-use-in-templates)
 
 ### 1. Install AutoID
 
@@ -349,6 +350,26 @@ fields:
     type: hidden
     translate: false  
 ```
+
+### 3.7 How to use in templates
+
+#### **`employee.php`**
+```php
+<h1>Projects</h1>
+<?php
+// using the `toStructure()` method, we create a structure collection from the manytomany-field
+$projects = $page->projects()->toStructure();
+// we can then loop through the entries and render the individual fields
+foreach($projects as $project):
+    // Fetching the project page by using the findBy-method on the parent-page of the related pages
+    $projectPage = page("projects")->children()->findBy("autoid", $project->foreignkey()->value()); ?>
+    <!-- Getting the title from the related page  -->
+    <h2>Title: <?= $projectPage->title() ?></h2>
+    <!-- Getting the hours from the structure entrie -->
+    <h2>Hours: <?= $project->hours() ?></h2>
+<?php endforeach; ?>
+```
+
 
 ## License
 
