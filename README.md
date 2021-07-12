@@ -361,8 +361,8 @@ fields:
 $projects = $page->projects()->toStructure();
 // we can then loop through the entries and render the individual fields
 foreach($projects as $project):
-    // Fetching the project page by using the findBy-method on the parent-page of the related pages
-    $projectPage = page("projects")->children()->findBy("autoid", $project->foreignkey()->value()); ?>
+    // Fetching the project page by using the fromAutoID-fieldMethod from the AUTOID plugin
+    $projectPage = $project->foreignkey()->fromAutoID(); ?>
     <!-- Getting the title from the related page  -->
     <h2>Title: <?= $projectPage->title() ?></h2>
     <!-- Getting the hours from the structure entrie -->
