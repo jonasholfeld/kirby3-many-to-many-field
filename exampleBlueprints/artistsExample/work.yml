@@ -3,7 +3,7 @@ title: Work
 fields:
     author:
         label: Author
-        type: relation
+        type: manytomany
         fields:
             foreignKey:
                 label: Work
