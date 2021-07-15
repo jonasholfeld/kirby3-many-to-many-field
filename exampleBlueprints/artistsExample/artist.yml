@@ -3,7 +3,7 @@ title: Artist
 fields:
     works:
         label: Works
-        type: relation
+        type: manytomany
         fields:
             foreignKey:
                 label: Work
