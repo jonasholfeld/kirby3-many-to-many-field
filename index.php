@@ -40,7 +40,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     foreach ($newPage->$relation()->toStructure() as $singleRelation) {
                         // Fetching the related subpage
                         try {
-                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $singleRelation->toArray()['foreignkey']);
+                            $foreign_subPage = autoid($singleRelation->toArray()['foreignkey']);
                         } catch (Throwable $e) {
                             throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
                         }
@@ -67,7 +67,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
 
                         //Finding the related subpage
                         try {
-                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
+                            $foreign_subPage = autoid($foreignKey['foreignkey']);
                         } catch (Throwable $e) {
                             throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
                         }
@@ -104,7 +104,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 foreach ($foreignKeys as $foreignKey) {
 
                     // Finding the related subpage
-                    $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
+                    $foreign_subPage = autoid($foreignKey['foreignkey']);
 
                     // Changing the relation-entry so it matches the entry at subpage
                     $singleRelationAtForeign = $foreignKey;
@@ -161,13 +161,38 @@ function deleteRelation($page, $value, $relationField)
     }
 }
 
+function unSetID($value)
+{
+  $newValue = $value; 
+  $newValue['id'] = 0;
+  return $newValue;
+}
+
 function relationIsChanged($newPage, $oldPage, $relation)
 {
-    //Constructing safer strings for comparison
-    $oldRelations = str_replace(["\n", "\r"], '', $oldPage->$relation()->toString());
-    $newRelations = str_replace(["\n", "\r"], '', $newPage->$relation()->toString());
-
-    return $newRelations != $oldRelations;
+    $change = false;
+    $oldRelationsArray =  $oldPage->$relation()->toStructure()->toArray();
+    $oldRelationsArray = array_map('unSetID', $oldRelationsArray);
+    $newRelationsArray =  $newPage->$relation()->toStructure()->toArray();
+    $newRelationsArray = array_map('unSetID', $newRelationsArray);
+    
+    foreach($oldRelationsArray as $oldRelation) {
+      if(!in_array($oldRelation, $newRelationsArray)) {
+        $change = true;
+      }
+    }
+    foreach($newRelationsArray as $newRelation) {
+      if(!in_array($newRelation, $oldRelationsArray)) {
+        $change = true;
+      }
+    }
+    if($change) {
+      site()->log("change is true");
+    } else {
+      site()->log("change is false");
+    }
+        
+    return $change;
 }
 
 function addRelation($page, $value, $relationField)
