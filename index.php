@@ -185,13 +185,7 @@ function relationIsChanged($newPage, $oldPage, $relation)
       if(!in_array($newRelation, $oldRelationsArray)) {
         $change = true;
       }
-    }
-    if($change) {
-      site()->log("change is true");
-    } else {
-      site()->log("change is false");
-    }
-        
+    }        
     return $change;
 }
 
