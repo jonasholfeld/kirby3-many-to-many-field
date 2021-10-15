@@ -40,7 +40,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     foreach ($newPage->$relation()->toStructure() as $singleRelation) {
                         // Fetching the related subpage
                         try {
-                            $foreign_subPage = autoid($singleRelation->toArray()['foreignkey']);
+                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $singleRelation->toArray()['foreignkey']);
                         } catch (Throwable $e) {
                             throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
                         }
@@ -56,7 +56,6 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     // Filtering deleted keys
                     $oldForeignKeys = $oldPage->$relation()->toStructure();
                     $newForeignKeys = $newPage->$relation()->toStructure();
-                    
                     $deletedForeignKeys = [];
                     foreach($oldForeignKeys->toArray() as $oldForeignKey) {
                         if (!in_array($oldForeignKey, $newForeignKeys->toArray())) {
@@ -64,10 +63,9 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                         }
                     }
                     foreach ($deletedForeignKeys as $foreignKey) {
-
                         //Finding the related subpage
                         try {
-                            $foreign_subPage = autoid($foreignKey['foreignkey']);
+                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
                         } catch (Throwable $e) {
                             throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
                         }
@@ -104,7 +102,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 foreach ($foreignKeys as $foreignKey) {
 
                     // Finding the related subpage
-                    $foreign_subPage = autoid($foreignKey['foreignkey']);
+                    $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
 
                     // Changing the relation-entry so it matches the entry at subpage
                     $singleRelationAtForeign = $foreignKey;
@@ -161,7 +159,7 @@ function deleteRelation($page, $value, $relationField)
     }
 }
 
-function unSetID($value)
+function setID($value)
 {
   $newValue = $value; 
   $newValue['id'] = 0;
@@ -170,11 +168,15 @@ function unSetID($value)
 
 function relationIsChanged($newPage, $oldPage, $relation)
 {
+    //Constructing safer strings for comparison
+    $oldRelations = str_replace(["\n", "\r"], '', $oldPage->$relation()->toString());
+    $newRelations = str_replace(["\n", "\r"], '', $newPage->$relation()->toString());
+    
     $change = false;
     $oldRelationsArray =  $oldPage->$relation()->toStructure()->toArray();
-    $oldRelationsArray = array_map('unSetID', $oldRelationsArray);
+    $oldRelationsArray = array_map('setID', $oldRelationsArray);
     $newRelationsArray =  $newPage->$relation()->toStructure()->toArray();
-    $newRelationsArray = array_map('unSetID', $newRelationsArray);
+    $newRelationsArray = array_map('setID', $newRelationsArray);
     
     foreach($oldRelationsArray as $oldRelation) {
       if(!in_array($oldRelation, $newRelationsArray)) {
@@ -185,7 +187,7 @@ function relationIsChanged($newPage, $oldPage, $relation)
       if(!in_array($newRelation, $oldRelationsArray)) {
         $change = true;
       }
-    }        
+    }   
     return $change;
 }
 
