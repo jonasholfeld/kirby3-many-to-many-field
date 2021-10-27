@@ -29,23 +29,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     // Getting Content type and page from the blueprint of the updated page
                     $relatedPage = page($newPage->blueprint()->field($relation)['relatedPage']);
                     $relationField = $newPage->blueprint()->field($relation)['relatationField'];
-
-                    // Creating a unique ID for every row in the structure, if it's not already in place
-                    $structureWithHash = [];
-                    $update = false;
-
-                    foreach ($newPage->$relation()->yaml() as $singleRelation) {
-                        if(!array_key_exists('uniquerowid', $singleRelation)) {
-                            $singleRelation['uniquerowid'] = uniqid($more_entropy = true);
-                            $update = true;
-                        }
-                        array_push($structureWithHash, $singleRelation);
-                    }
-
-                    //Updating if necessary
-                    if($update) {
-                        page($newPage)->update(array($relation => yaml::encode($structureWithHash)));
-                    }
+                    
                     // Getting the autoid value of the updated page
                     try {
                         $primaryKey = $newPage->AUTOID();
@@ -53,45 +37,38 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                         throw new Exception('Many to Many Field Plugin: Updated page needs autoid field to create a relation.  '.$e->getMessage());
                     }
 
-                    foreach ($structureWithHash as $singleRelation) {
+                    foreach ($newPage->$relation()->toStructure() as $singleRelation) {
                         // Fetching the related subpage
                         try {
-                            $foreign_subPage = autoid($singleRelation['foreignkey']);
-                            //$foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $singleRelation['foreignkey']);
+                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $singleRelation->toArray()['foreignkey']);
                         } catch (Throwable $e) {
                             throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
                         }
                         // Changing the relation entry so it links to autoid of updated page
-                        $singleRelationAtForeign = $singleRelation;
+                        $singleRelationAtForeign = $singleRelation->toArray();
                         $singleRelationAtForeign['foreignkey'] = $primaryKey;
                         // Deleting the id field set by the toArray() Method
                         unset($singleRelationAtForeign['id']);
                         // Adding relation to foreign subpage
                         addRelation($foreign_subPage, $singleRelationAtForeign, $relationField);
                     }
+
                     // Filtering deleted keys
                     $oldForeignKeys = $oldPage->$relation()->toStructure()->toArray();
                     $newForeignKeys = $newPage->$relation()->toStructure()->toArray();
                     $oldForeignKeys = array_map('unSetID', $oldForeignKeys);
                     $newForeignKeys = array_map('unSetID', $newForeignKeys);
                     $deletedForeignKeys = [];
-                    $oldRowIds = array_column($oldForeignKeys, 'uniquerowid');
-                    $newRowIds = array_column($newForeignKeys, 'uniquerowid');
-                    foreach($oldRowIds as $oldRowId) {
-                        if (!in_array($oldRowId, $newRowIds)) {
-                            $deletedRow = [];
-                            foreach($oldForeignKeys as $oldForeignKey) {
-                                if($oldForeignKey['uniquerowid'] == $oldRowId) {
-                                    array_push($deletedForeignKeys, $oldForeignKey);
-                                }
-                            }
+                    foreach($oldForeignKeys as $oldForeignKey) {
+                        if (!in_array($oldForeignKey, $newForeignKeys)) {
+                            array_push($deletedForeignKeys, $oldForeignKey);
                         }
                     }
                     foreach ($deletedForeignKeys as $foreignKey) {
+
                         //Finding the related subpage
                         try {
-                            $foreign_subPage = autoid($foreignKey['foreignkey']);
-                            //$foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
+                            $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
                         } catch (Throwable $e) {
                             throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
                         }
@@ -128,8 +105,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 foreach ($foreignKeys as $foreignKey) {
 
                     // Finding the related subpage
-                    $foreign_subPage = autoid($foreignKey['foreignkey']);
-                    //$foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
+                    $foreign_subPage = $relatedPage->childrenAndDrafts()->findBy('autoid', $foreignKey['foreignkey']);
 
                     // Changing the relation-entry so it matches the entry at subpage
                     $singleRelationAtForeign = $foreignKey;
@@ -215,13 +191,8 @@ function relationIsChanged($newPage, $oldPage, $relation)
     return $change;
 }
 
-
 function addRelation($page, $value, $relationField)
 {
-    $update = false;
-    $addition = false;
-
-
     // Getting relations field from page to add to
     try {
         $fieldData = YAML::decode(page($page)->$relationField()->value());
@@ -232,35 +203,20 @@ function addRelation($page, $value, $relationField)
     // Getting Length of relations field before insert
     $fieldLengthBefore = count($fieldData);
 
-    foreach($fieldData as &$singleRelation) {
-        if($singleRelation['uniquerowid'] == $value['uniquerowid']) {
-            if($singleRelation != $value) {
-                $singleRelation = $value;
-                $update = true;
-            }
-        }
-    }
-
     // Writing to relations field
-    if( !$update ) {
-        array_push($fieldData, $value);
-        $addition = true;
-    }
+    array_push($fieldData, $value);
 
-    if($addition) {
-        // Making array unique to filter out duplicates
-        $fieldData = array_unique($fieldData, SORT_REGULAR);
+    // Making array unique to filter out duplicates
+    $fieldData = array_unique($fieldData, SORT_REGULAR);
 
-        // Getting Length of relations field after insert
-        $fieldLengthAfter = count($fieldData);
-
-        $addition = $fieldLengthBefore !== $fieldLengthAfter;
-    }
+    // Getting Length of relations field after insert
+    $fieldLengthAfter = count($fieldData);
     
     // If fieldLengthAfter is same as fieldLengthBefore, nothing was added so we skip updating to avoid cascading
-    if ( $addition || $update) {
+    if ($fieldLengthBefore !== $fieldLengthAfter) {
         try {
             page($page)->update([$relationField => YAML::encode($fieldData)]);
+
             return true;
         } catch (Exception $e) {
             return $e->getMessage();
