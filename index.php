@@ -54,12 +54,13 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     }
 
                     // Filtering deleted keys
-                    $oldForeignKeys = $oldPage->$relation()->toStructure();
-                    $newForeignKeys = $newPage->$relation()->toStructure();
-                    
+                    $oldForeignKeys = $oldPage->$relation()->toStructure()->toArray();
+                    $newForeignKeys = $newPage->$relation()->toStructure()->toArray();
+                    $oldForeignKeys = array_map('unSetID', $oldForeignKeys);
+                    $newForeignKeys = array_map('unSetID', $newForeignKeys);
                     $deletedForeignKeys = [];
-                    foreach($oldForeignKeys->toArray() as $oldForeignKey) {
-                        if (!in_array($oldForeignKey, $newForeignKeys->toArray())) {
+                    foreach($oldForeignKeys as $oldForeignKey) {
+                        if (!in_array($oldForeignKey, $newForeignKeys)) {
                             array_push($deletedForeignKeys, $oldForeignKey);
                         }
                     }
@@ -161,13 +162,33 @@ function deleteRelation($page, $value, $relationField)
     }
 }
 
+function unSetID($value)
+{
+  $newValue = $value; 
+  $newValue['id'] = 0;
+  return $newValue;
+}
+
 function relationIsChanged($newPage, $oldPage, $relation)
 {
-    //Constructing safer strings for comparison
-    $oldRelations = str_replace(["\n", "\r"], '', $oldPage->$relation()->toString());
-    $newRelations = str_replace(["\n", "\r"], '', $newPage->$relation()->toString());
-
-    return $newRelations != $oldRelations;
+    
+    $change = false;
+    $oldRelationsArray =  $oldPage->$relation()->toStructure()->toArray();
+    $oldRelationsArray = array_map('unSetID', $oldRelationsArray);
+    $newRelationsArray =  $newPage->$relation()->toStructure()->toArray();
+    $newRelationsArray = array_map('unSetID', $newRelationsArray);
+    
+    foreach($oldRelationsArray as $oldRelation) {
+      if(!in_array($oldRelation, $newRelationsArray)) {
+        $change = true;
+      }
+    }
+    foreach($newRelationsArray as $newRelation) {
+      if(!in_array($newRelation, $oldRelationsArray)) {
+        $change = true;
+      }
+    }   
+    return $change;
 }
 
 function addRelation($page, $value, $relationField)
