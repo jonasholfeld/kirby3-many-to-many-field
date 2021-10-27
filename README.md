@@ -1,6 +1,6 @@
 # Kirby 3 Many To Many Field
 
-> ⚠️ Please update to v1.0.2 if you used the plugin before, as the old version contained a bug that could lead to data loss. See the issue [Sorting Structure](https://github.com/jonasholfeld/kirby3-many-to-many-field/issues/7) for more info on the bug.⚠️
+> ⚠️ Please update to v1.0.2 if you used the plugin before, as the old version contained a bug that could lead to data loss. See the issue [Sorting Structure](https://github.com/jonasholfeld/kirby3-many-to-many-field/issues/7) for more info on the bug. ⚠️
 
 This plugin allows you to create many-to-many relationships between pages in Kirby. The relationship is bidirectional, meaning it can be edited from either side and is automatically updated on the other side. The relationship can have attributes that can be updated from both sides as well. You can define multiple many-to-many relations on one page. If a page with a relation to one or many other pages gets deleted, all relations to this page get deleted as well.
 
