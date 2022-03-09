@@ -27,7 +27,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 if (relationIsChanged($newPage, $oldPage, $relation)) {
 
                     // Getting Content type and page from the blueprint of the updated page
-                    $relatedPage = page($newPage->blueprint()->field($relation)['relatedPage']);
+                    $relatedPage = kirby()->page($newPage->blueprint()->field($relation)['relatedPage']);
                     $relationField = $newPage->blueprint()->field($relation)['relatationField'];
                     
                     // Getting the autoid value of the updated page
@@ -99,7 +99,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                 $primaryKey = $page->AUTOID();
 
                 // Getting related page and relation field from the blueprint of the deleted page
-                $relatedPage = page($page->blueprint()->field($relation)['relatedPage']);
+                $relatedPage = kirby()->page($page->blueprint()->field($relation)['relatedPage']);
                 $relationField = $page->blueprint()->field($relation)['relatationField'];
 
                 foreach ($foreignKeys as $foreignKey) {
@@ -195,9 +195,9 @@ function addRelation($page, $value, $relationField)
 {
     // Getting relations field from page to add to
     try {
-        $fieldData = YAML::decode(page($page)->$relationField()->value());
+        $fieldData = YAML::decode(kirby()->page($page)->$relationField()->value());
     } catch (Throwable $e) {
-        throw new Exception('Many to Many Field Plugin: related page or relatation field is faulty or missing. '.$e->getMessage());
+        throw new Exception('Many to Many Field Plugin: related page or relatation field is faulty or missing. ' .$e->getMessage());
     }
 
     // Getting Length of relations field before insert
@@ -215,7 +215,7 @@ function addRelation($page, $value, $relationField)
     // If fieldLengthAfter is same as fieldLengthBefore, nothing was added so we skip updating to avoid cascading
     if ($fieldLengthBefore !== $fieldLengthAfter) {
         try {
-            page($page)->update([$relationField => YAML::encode($fieldData)]);
+            kirby()->page($page)->update([$relationField => YAML::encode($fieldData)]);
 
             return true;
         } catch (Exception $e) {
