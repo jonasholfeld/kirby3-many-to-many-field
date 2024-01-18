@@ -3,7 +3,7 @@ title: Project
 fields:
     description:
         type: text
-        label: Descriptoion
+        label: Description
     employees:
       type: manytomany
       label: Employees
@@ -13,7 +13,7 @@ fields:
           type: select
           options: query
           query:
-            fetch: site.childrenanddrafts.template('employee')
+            fetch: site.find('employees').childrenAndDrafts
             text: "{{ page.title }}"
             value: "{{ page.uuid }}"
         hours:

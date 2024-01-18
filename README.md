@@ -62,7 +62,7 @@ fields:
         type: select
         options: query
         query:
-          fetch: site.childrenanddrafts.template('employee')
+          fetch: site.find('employees').childrenAndDrafts
           text: "{{ page.title }}"
           value: "{{ page.uuid }}"
       hours:
@@ -91,7 +91,7 @@ fields:
         type: select
         options: query
         query:
-          fetch: site.childrenanddrafts.template('project')
+          fetch: site.find('projects').childrenAndDrafts
           text: "{{ page.title }}"
           value: "{{ page.uuid }}"
       hours:
@@ -127,7 +127,7 @@ fields:
     type: select #<-- must be a select field
     options: query 
     query:
-      fetch: site.childrenanddrafts.template('employee') #<-- adjust to your needs...
+      fetch: site.find('employees').childrenAndDrafts #<-- adjust to your needs...
       text: "{{ page.title }}"
       value: "{{ page.uuid }}"
 ...
@@ -164,7 +164,7 @@ fields:
         type: select
         options: query
         query:
-          fetch: site.childrenanddrafts.template('employee') #<-- query to the related entities...
+          fetch: site.find('employees').childrenAndDrafts #<-- query to the related entities...
           text: "{{ page.title }}"
           value: "{{ page.uuid }}"
       hours:
@@ -193,7 +193,7 @@ fields:
         type: select
         options: query
         query:
-          fetch: site.childrenanddrafts.template('project') #<-- query to the related entities...
+          fetch: site.find('projects').childrenAndDrafts #<-- query to the related entities...
           text: "{{ page.title }}"
           value: "{{ page.uuid }}"
       hours:
