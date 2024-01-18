@@ -1,0 +1,24 @@
+title: Employee
+
+fields:
+    age:
+        type: number
+        label: Age
+    projects:
+      type: manytomany
+      label: Projects
+      fields:
+        foreignkey:
+          label: Project
+          type: select
+          options: query
+          query:
+            fetch: site.childrenanddrafts.template('project')
+            text: "{{ page.title }}"
+            value: "{{ page.uuid }}"
+        hours:
+          type: number
+          label: Number of hours
+      validate:
+        unique: projects
+      relatationField: employees

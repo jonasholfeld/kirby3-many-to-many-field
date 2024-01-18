@@ -59,7 +59,7 @@ fields:
     fields:
       foreignkey:
         label: Employee
-        type: multiselect
+        type: select
         options: query
         query:
           fetch: site.childrenanddrafts.template('employee')
@@ -88,7 +88,7 @@ fields:
     fields:
       foreignkey:
         label: Project
-        type: multiselect
+        type: select
         options: query
         query:
           fetch: site.childrenanddrafts.template('project')
@@ -142,12 +142,13 @@ relatationField: employees
 ...
 ```
 
-The other two necessary fields are a validator that makes sure you link a page only once to another, and a static field that saves the name of the corresponding relation field, that is the field in the linked page the relation should be written to. This is needed because there could be multiple relation field in the same blueprint and the plugin needs to know which relation should be written to which field.
+The other two necessary fields are a validator that makes sure you link a page only once to another, and a static field that saves the name of the corresponding relation field, that is the field in the linked page the relation should be written to. This is needed because there could be multiple relation fields in the same blueprint and the plugin needs to know which relation should be written to which field.
 
 #### 2.2 Corresponding blueprint
 
 To be able to edit the relation from both sides, both blueprints of the related pages need to have a field of the type manytomany. They need to have corresponding values in the specific fields. Lets visit aboves example again and look how the fields are corresponding...
 
+#### **`project.yml`**
 ```yaml
 title: Project
 
@@ -160,7 +161,7 @@ fields:
     fields:
       foreignkey:
         label: Employee
-        type: multiselect
+        type: select
         options: query
         query:
           fetch: site.childrenanddrafts.template('employee') #<-- query to the related entities...
@@ -189,7 +190,7 @@ fields:
     fields:
       foreignkey:
         label: Project
-        type: multiselect
+        type: select
         options: query
         query:
           fetch: site.childrenanddrafts.template('project') #<-- query to the related entities...
@@ -207,7 +208,7 @@ Once your blueprints are setup like this, the manytomany field changes on both s
 
 #### 3.6 Additional structure fields
 
-As mentioned above, the manytomany field is just a structure field with some special fields. That means you can add any number of fields to the structure, if you need to save some extra information about the relation, e.g. a year. Just make sure the two linked blueprints both have the extra fields in the manytomany field like seen above with the additional "hours" field.
+As mentioned above, the manytomany field is just a structure field with some special fields. That means you can add any number of fields to the structure, if you need to save some extra information about the relation, e.g. the number of hours an employee worked on a project (like in the example above). Just make sure the two linked blueprints both have the extra fields in the manytomany field like seen above with the additional "hours" field.
 
 ### 3.7 How to use in templates
 
