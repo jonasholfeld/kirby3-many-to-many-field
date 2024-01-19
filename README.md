@@ -56,6 +56,7 @@ fields:
   employees:
     type: manytomany
     label: Employees
+    translate: false
     fields:
       foreignkey:
         label: Employee
@@ -85,6 +86,7 @@ fields:
   projects:
     type: manytomany
     label: Projects
+    translate: false
     fields:
       foreignkey:
         label: Project
@@ -158,6 +160,7 @@ fields:
     label: Description
   employees: #<-- name of the related entities...
     type: manytomany
+    translate: false
     fields:
       foreignkey:
         label: Employee
@@ -187,6 +190,7 @@ fields:
   projects: #<-- name of the related entities...
     type: manytomany
     label: Projects
+    translate: false
     fields:
       foreignkey:
         label: Project

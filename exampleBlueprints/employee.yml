@@ -7,6 +7,7 @@ fields:
     projects:
       type: manytomany
       label: Projects
+      translate: false
       fields:
         foreignkey:
           label: Project
