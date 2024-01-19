@@ -1,10 +1,8 @@
 # Kirby 3 Many To Many Field
 
-> Version 2.0 of this plugin uses the [Unique IDs](https://getkirby.com/docs/guide/uuids) (aka UUIDs) that are part of the Kirby core since Kirby 3.8.0. Make sure to only use it with Kirby 3.8.0 or higher (doesn't work with Kirby 4 though). Upgrading from 1.0 to 2.0 with existing content is not possible and will lead to corrupted data.
+> ⚠️ Version 2.0 of this plugin uses the [Unique IDs](https://getkirby.com/docs/guide/uuids) (aka UUIDs) that are part of the Kirby core since Kirby 3.8.0. Make sure to only use it with Kirby 3.8.0 or higher (doesn't work with Kirby 4 though). Upgrading from 1.0 to 2.0 with existing content is not possible and will lead to corrupted data. ⚠️
 
 This plugin allows you to create many-to-many relationships between pages in Kirby. The relationship is bidirectional, meaning it can be edited from either side and is automatically updated on the other side. The relationship can have attributes that can be updated from both sides as well. You can define multiple many-to-many relations on one page. If a page with a relation to one or many other pages gets deleted, all relations to this page get deleted as well.
-
-You need to install the [AutoId plugin](https://github.com/bnomei/kirby3-autoid) by Bnomei to your project as well for this plugin to work.
 
 This plugin uses two hooks: the [page.update:after](https://getkirby.com/docs/reference/plugins/hooks/page-update-after) and the [page.delete:before](https://getkirby.com/docs/reference/plugins/hooks/page-delete-before) hook. If you use these hooks in your project as well, make sure to rename the hooks and trigger them seperately as described [here](https://getkirby.com/docs/reference/plugins/extensions/hooks#creating-your-own-hooks).
 
