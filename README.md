@@ -34,11 +34,11 @@ The many-to-many plugin gets all its information about the related pages from yo
 
 Both blueprints need the manytomany field in order to connect the pages correctly. As it’s important to set them up correctly, the following text explains every step bit by bit.
 
-1. [Quickstart](#1-Quickstart ) 
-2. [Setup in Detail](#-2-Setup-in-Detail) 
-2.1 [Necessery structure fields](#31-Necessary-Structure-Fields) 
-2.2 [Additional structure fields](#36-Additional-structure-fields) 
-2.3 [How to use in templates](#37-How-to-use-in-templates) 
+1. [Quickstart](#1-Quickstart ) \
+2. [Setup in Detail](#-2-Setup-in-Detail) \
+- 2.1 [Necessery structure fields](#31-Necessary-Structure-Fields) \
+- 2.2 [Additional structure fields](#36-Additional-structure-fields) \
+- 2.3 [How to use in templates](#37-How-to-use-in-templates) \
 
 #### 1 Quickstart 
 
