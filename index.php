@@ -124,7 +124,7 @@ function addRelation($page, $value, $relationField)
     try {
         $fieldData = YAML::decode($page->$relationField()->value());
     } catch (Throwable $e) {
-        throw new Exception('Many to Many Field Plugin: related page or relatation field is faulty or missing. '.$e->getMessage());
+        throw new Exception('Many to Many Field Plugin: related page or relatation field is faulty or missing. ' .$e->getMessage());
     }
     // Writing to relations field
     array_push($fieldData, $value);
