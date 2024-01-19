@@ -1,0 +1,25 @@
+title: Project
+
+fields:
+    description:
+        type: text
+        label: Description
+    employees:
+      type: manytomany
+      label: Employees
+      translate: false
+      fields:
+        foreignkey:
+          label: Employee
+          type: select
+          options: query
+          query:
+            fetch: site.find('employees').childrenAndDrafts
+            text: "{{ page.title }}"
+            value: "{{ page.uuid }}"
+        hours:
+          type: number
+          label: Number of hours
+      validate:
+        unique: employees
+      relatationField: projects

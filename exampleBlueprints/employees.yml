@@ -1,0 +1,8 @@
+title: Employees
+
+sections:
+
+    children:
+        headline: Employees
+        type: pages
+        templates: employee
