@@ -233,6 +233,10 @@ foreach($projects as $project):
 <?php endforeach; ?>
 ```
 
+## Multilanguage / Translation
+
+I advice to set the *translate: false* option in your blueprints for the manytomany field, as relations should usually be the same for multilanguage pages. For other cases, adjust the code in index.php for your needs.
+
 ## License
 
 MIT
