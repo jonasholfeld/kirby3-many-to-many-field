@@ -17,10 +17,8 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
             $relationFields = getRelationFields($newPage);
             foreach ($relationFields as $relation) {
               $relationField = $newPage->blueprint()->field($relation)['relatationField'];
-              $oldRelationsArray =  $oldPage->$relation()->toStructure()->toArray();
-              $oldRelationsArray = array_map('unSetID', $oldRelationsArray);
-              $newRelationsArray =  $newPage->$relation()->toStructure()->toArray();
-              $newRelationsArray = array_map('unSetID', $newRelationsArray);
+              $oldRelationsArray =   YAML::decode($oldPage->$relation()->value());
+              $newRelationsArray =  YAML::decode($newPage->$relation()->value());
               foreach($oldRelationsArray as $oldRelation) {
                 if(!in_array($oldRelation, $newRelationsArray)) {
                     try {
@@ -54,7 +52,7 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
             // Checks if the relation field is present in the updated page
             foreach ($relationFields as $relation) {
                 // Getting bosst-ids of related pages
-                $foreignKeys = $page->$relation()->toStructure()->toArray();
+                $foreignKeys = YAML::decode($page->$relation()->value());
                 // Getting the boost-id value of the deleted page
                 $primaryKey = $page->uuid();
                 // Getting related page and relation field from the blueprint of the deleted page
@@ -66,8 +64,6 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
                     // Changing the relation-entry so it matches the entry at subpage
                     $singleRelationAtForeign = $foreignKey;
                     $singleRelationAtForeign['foreignkey'] = $primaryKey;
-                    // Deleting the id field set by the toArray() Method
-                    unset($singleRelationAtForeign['id']);
                     // Deleting the relation entry from the related page
                     deleteRelation($foreign_subPage, $singleRelationAtForeign, $relationField);
                 }
@@ -91,7 +87,7 @@ function deleteRelation($page, $value, $relationField)
 {
 
     // Getting relations field from page to delete from
-    $fieldData = $page->$relationField()->toStructure()->toArray();
+    $fieldData = YAML::decode($page->$relationField()->value());
     // Creating empty field
     $newFieldData = [];
     // Pushing all entries that dont match the deleted relation 

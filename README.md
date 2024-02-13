@@ -1,6 +1,8 @@
 # Kirby 3 Many To Many Field
 
-> ⚠️ Version 2.0 of this plugin uses the [Unique IDs](https://getkirby.com/docs/guide/uuids) (aka UUIDs) that are part of the Kirby core since Kirby 3.8.0. Make sure to only use it with Kirby 3.8.0 or higher (doesn't work with Kirby 4 though). Upgrading from 1.0 to 2.0 with existing content is not possible and will lead to corrupted data. ⚠️
+> Version 2.0.1 is compatible with Kirby 4!! To upgrade, just pull the latest version of this plugin before updating the Kirby core.
+
+> ⚠️ Version 2.0 of this plugin uses the [Unique IDs](https://getkirby.com/docs/guide/uuids) (aka UUIDs) that are part of the Kirby core since Kirby 3.8.0. Make sure to only use it with Kirby 3.8.0 or higher (the latest version also works with Kirby 4). Upgrading from 1.0 to 2.0 with existing content is not possible and will lead to corrupted data. ⚠️
 
 This plugin allows you to create many-to-many relationships between pages in Kirby. It is designed based on the many-to-many relationship commonly found in traditional database systems (hence the name). The relationship is bidirectional, meaning it can be edited from either side and is automatically updated on the other side. The relationship can have attributes that can be updated from both sides as well. You can define multiple many-to-many relations on one page. If a page with a relation to one or many other pages gets deleted, all relations to this page get deleted as well.
 
