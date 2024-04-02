@@ -1,4 +1,4 @@
-# Kirby 3 Many To Many Field
+# Kirby 3 Many To Many Field (K3, K4)
 
 > Version 2.0.1 is compatible with Kirby 4!! To upgrade, just pull the latest version of this plugin before updating the Kirby core.
 
