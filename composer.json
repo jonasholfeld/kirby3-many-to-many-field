@@ -3,7 +3,7 @@
     "description": "Kirby Many To Many Field Relationship Plugin",
     "type": "kirby-plugin",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "2.0.1",
     "authors": [
         {
             "name": "Jonas Holfeld",
