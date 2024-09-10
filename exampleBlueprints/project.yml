@@ -11,7 +11,9 @@ fields:
       fields:
         foreignkey:
           label: Employee
-          type: select
+          type: multiselect
+          max: 1
+          min: 1
           options: query
           query:
             fetch: site.find('employees').childrenAndDrafts

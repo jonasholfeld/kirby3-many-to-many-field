@@ -19,29 +19,37 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
               $relationField = $newPage->blueprint()->field($relation)['relatationField'];
               $oldRelationsArray =   YAML::decode($oldPage->$relation()->value());
               $newRelationsArray =  YAML::decode($newPage->$relation()->value());
+              // Looping over old relations to find deleted ones...
               foreach($oldRelationsArray as $oldRelation) {
                 if(!in_array($oldRelation, $newRelationsArray)) {
+                    // an old relation was deleted...
                     try {
                         $foreign_subPage = kirby()->page($oldRelation['foreignkey']);
                     } catch (Throwable $e) {
-                        throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
+                        throw new Exception('Many to Many Field Plugin: Trying to fetch non-existing page...'.$e->getMessage());
+                        continue;
                     }
+                    // Changing the old relation so it corresponds with the relation at the foreign page...
                     $singleRelationAtForeign = $oldRelation;
                     $singleRelationAtForeign['foreignkey'] = "page://".$primaryKey;
-                    unset($singleRelationAtForeign['id']);
+                    // Deleting the old relation at the foreign page
                     deleteRelation($foreign_subPage, $singleRelationAtForeign, $relationField);
                 }
               }
+              // looping over new relations to find added ones
               foreach($newRelationsArray as $newRelation) {
                 if(!in_array($newRelation, $oldRelationsArray)) {
+                  // a new relation was added...
                   try {
                       $foreign_subPage = kirby()->page($newRelation['foreignkey']);
                   } catch (Throwable $e) {
-                      throw new Exception('Many to Many Field Plugin: "relatedPage" field in blueprint is missing. '.$e->getMessage());
+                      throw new Exception('Many to Many Field Plugin: Trying to fetch non-existing page...'.$e->getMessage());
+                      continue;
                   }
+                  // Changing the new relation so it corresponds with the relation at the foreign page...
                   $singleRelationAtForeign = $newRelation;
                   $singleRelationAtForeign['foreignkey'] = "page://".$primaryKey;
-                  unset($singleRelationAtForeign['id']);
+                  // Adding the new relation to the foreign page
                   addRelation($foreign_subPage, $singleRelationAtForeign, $relationField);
                 }
               }
@@ -51,14 +59,12 @@ Kirby::plugin('jonasholfeld/many-to-many-field', [
             $relationFields = getRelationFields($page);
             // Checks if the relation field is present in the updated page
             foreach ($relationFields as $relation) {
-                // Getting bosst-ids of related pages
-                $foreignKeys = YAML::decode($page->$relation()->value());
-                // Getting the boost-id value of the deleted page
-                $primaryKey = $page->uuid();
-                // Getting related page and relation field from the blueprint of the deleted page
-                $relatedPage = kirby()->page($page->blueprint()->field($relation)['relatedPage']);
+                // Getting the relations of the deleted page...
+                $relations = YAML::decode($page->$relation()->value());
                 $relationField = $page->blueprint()->field($relation)['relatationField'];
-                foreach ($foreignKeys as $foreignKey) {
+                // Getting the uuid of the deleted page
+                $primaryKey = $page->uuid();
+                foreach ($relations as $foreignKey) {
                     // Finding the related subpage
                     $foreign_subPage = kirby()->page($foreignKey['foreignkey']);
                     // Changing the relation-entry so it matches the entry at subpage
@@ -85,7 +91,6 @@ function getRelationFields($page)
 
 function deleteRelation($page, $value, $relationField)
 {
-
     // Getting relations field from page to delete from
     $fieldData = YAML::decode($page->$relationField()->value());
     // Creating empty field
@@ -93,7 +98,6 @@ function deleteRelation($page, $value, $relationField)
     // Pushing all entries that dont match the deleted relation 
     foreach ($fieldData as $relation) {
         $singleRelation = $relation;
-        unset($singleRelation['id']);
         if ($singleRelation != $value) {
             array_push($newFieldData, $singleRelation);
         }
@@ -105,13 +109,6 @@ function deleteRelation($page, $value, $relationField)
     } catch (Exception $e) {
         return $e->getMessage();
     }
-}
-
-function unSetID($value)
-{
-  $newValue = $value; 
-  $newValue['id'] = 0;
-  return $newValue;
 }
 
 

@@ -62,7 +62,9 @@ fields:
     fields:
       foreignkey:
         label: Employee
-        type: select
+        type: multiselect
+        max: 1
+        min: 1
         options: query
         query:
           fetch: site.find('employees').childrenAndDrafts
@@ -92,7 +94,9 @@ fields:
     fields:
       foreignkey:
         label: Project
-        type: select
+        type: multiselect
+        max: 1
+        min: 1
         options: query
         query:
           fetch: site.find('projects').childrenAndDrafts
@@ -128,7 +132,9 @@ The manytomany-field inherits from the [structure field](https://getkirby.com/do
 fields:
   foreignkey: #<-- must be called like this
     label: Employee
-    type: select #<-- must be a select field
+    type: multiselect  #<-- can be select OR multiselect, but multiselect has a search...
+    max: 1
+    min: 1
     options: query 
     query:
       fetch: site.find('employees').childrenAndDrafts #<-- adjust to your needs...
@@ -166,7 +172,9 @@ fields:
     fields:
       foreignkey:
         label: Employee
-        type: select
+        type: multiselect
+        max: 1
+        min: 1
         options: query
         query:
           fetch: site.find('employees').childrenAndDrafts #<-- query to the related entities...
@@ -196,7 +204,9 @@ fields:
     fields:
       foreignkey:
         label: Project
-        type: select
+        type: multiselect
+        max: 1
+        min: 1
         options: query
         query:
           fetch: site.find('projects').childrenAndDrafts #<-- query to the related entities...
